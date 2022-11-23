@@ -1,2 +1,2 @@
 # Meme Butler
-A personal connoisseur to fetch your favorite memes.
+A Discord bot to fetch your favorite memes.
