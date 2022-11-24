@@ -10,7 +10,8 @@ exports.execute = async (message) => {
     const alias = message.content.split(messageSigil)[1].split(' ')[1];
     const db = new sqlite3.Database(dbFile);
 
-    db.get('SELECT location FROM memes WHERE alias = ?', alias, async (err, row) => {
+    db.get('SELECT location FROM memes WHERE guild=? AND alias=?', [message.guildId, alias],
+    async (err, row) => {
         if (err) {
             console.error(err.message);
             return message.reply('There was an error handling that message!');
