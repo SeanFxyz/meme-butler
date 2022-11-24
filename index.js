@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Events, GatewayIntentBits, Collection } = require('discord.js');
-const { token, messageSigil } = require('./config.json');
+const { token, messageSigil, dbFile } = require('./config.json');
 const sqlite3 = require('sqlite3');
 
 
@@ -88,8 +88,8 @@ const handlerFiles = fs.readdirSync(handlersPath).filter((file) => file.endsWith
 for (const file of handlerFiles) {
     const filePath = path.join(handlersPath, file);
     const handler = require(filePath);
-    if ('name' in handler && 'execute' in handler) {
-        client.messageHandlers.set(handler.name, handler);        
+    if ('names' in handler && 'execute' in handler) {
+        handler.names.forEach((n) => { client.messageHandlers.set(n, handler); });
     }
 }
 
