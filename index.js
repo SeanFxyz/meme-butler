@@ -1,12 +1,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Events, GatewayIntentBits, Collection } = require('discord.js');
-const { token, messageSigil, dbFile } = require('./config.json');
+const { token, messageSigil } = require('./config.json');
 const sqlite3 = require('sqlite3');
 
 
 if (!token) {
-    console.error("Error: no token specified in config.json");
+    console.error('Error: no token specified in config.json');
     return 1;
 }
 
@@ -17,12 +17,16 @@ if (!fs.existsSync(path.join(__dirname, 'database.db'))) {
     
     db.serialize(() => {
         db.run('CREATE TABLE memes (guild TEXT, alias TEXT, location TEXT, PRIMARY KEY (guild, alias))');
-    })
+    });
     
     db.close();
     
     console.log('Initialized database.');
 }
+
+
+// Create tmp directory for attachment files
+if (!fs.existsSync(path.join(__dirname, 'tmp'))) fs.mkdirSync('tmp');
 
 
 // Create a new client
@@ -56,8 +60,6 @@ for (const file of handlerFiles) {
 
 // Add callback to receive messages and send them to the appropriate handlers.
 client.on('messageCreate', async (message) => {
-    console.log(`Received message:`);
-    console.log(message);
     if (message.content.startsWith(messageSigil)) {
         const messageCommand = message.content.split(messageSigil)[1].split(' ')[0];
         const handler = message.client.messageHandlers.get(messageCommand);
@@ -66,6 +68,9 @@ client.on('messageCreate', async (message) => {
             console.error(`No message handler matching message command ${messageCommand} was found.`);
             return;
         }
+
+        console.log('Received command message:');
+        console.log(message);
         
         try {
             await handler.execute(message);
