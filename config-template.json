@@ -3,5 +3,6 @@
     "clientId": "",
     "guildId": "",
     "messageSigil": "$",
-    "inviteLink": "https://discord.com/api/oauth2/authorize?client_id=1044705310591438918&permissions=309237696512&scope=bot%20applications.commands"
+    "inviteLink": "",
+    "dbFile": "database.db"
 }
