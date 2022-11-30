@@ -1,5 +1,3 @@
-const fs = require('node:fs');
-const path = require('node:path');
 const sqlite3 = require('sqlite3');
 const { messageSigil, dbFile } = require('../config.json');
 
@@ -37,26 +35,25 @@ exports.execute = async (message) => {
 
     const db = new sqlite3.Database(dbFile);
     db.get('SELECT * FROM memes WHERE guild=? AND alias=?', [sourceMessage.guildId, alias],
-    async (err, row) => {
-        if (err) {
-            console.error(err.message);
-            return message.reply('There was an error handling that message!');
-        }
-        
-        if (row) {
-            return message.reply('That alias is already taken!');
-        }
-
-        db.run('INSERT INTO memes VALUES (?, ?, ?)', [message.guildId, alias, location],
-        async (err) => {
+        async (err, row) => {
             if (err) {
                 console.error(err.message);
                 return message.reply('There was an error handling that message!');
             }
+        
+            if (row) {
+                return message.reply('That alias is already taken!');
+            }
+
+            db.run('INSERT INTO memes VALUES (?, ?, ?)', [message.guildId, alias, location], async (err) => {
+                if (err) {
+                    console.error(err.message);
+                    return message.reply('There was an error handling that message!');
+                }
             
-            await message.reply('Meme added to database.');
+                return message.reply('Meme added to database.');
+            });
         });
-    });
 
 
     db.close();
