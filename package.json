@@ -1,0 +1,26 @@
+{
+  "name": "meme-butler",
+  "version": "0.1.2",
+  "description": "A Discord bot to recall and post the links to your favorite memes, using aliases assigned by users in your server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeanFxyz/meme-butler.git"
+  },
+  "author": "Sean Fitzgerald",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/SeanFxyz/meme-butler/issues"
+  },
+  "homepage": "https://github.com/SeanFxyz/meme-butler#readme",
+  "dependencies": {
+    "discord.js": "^14.7.0",
+    "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.28.0"
+  }
+}
