@@ -1,6 +1,6 @@
 {
   "name": "meme-butler",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A Discord bot to recall and post the links to your favorite memes, using aliases assigned by users in your server.",
   "main": "index.js",
   "scripts": {
