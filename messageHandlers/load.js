@@ -1,7 +1,6 @@
 const sqlite3 = require('sqlite3');
 const { dbFile } = require('../config.json');
 
-
 exports.names = ['load'];
 
 exports.execute = async (message) => {

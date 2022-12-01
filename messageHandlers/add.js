@@ -5,7 +5,7 @@ const { messageSigil, dbFile } = require('../config.json');
 exports.names = ['add'];
 
 exports.execute = async (message) => {
-    const alias = message.content.split(messageSigil)[1].split(' ')[1];
+    const alias = message.content.split(messageSigil)[1].split(' ')[1].toLowerCase();
     let sourceMessage;
     let location = '';
     let memeFound = false;

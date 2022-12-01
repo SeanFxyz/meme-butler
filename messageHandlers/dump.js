@@ -14,7 +14,7 @@ exports.execute = async (message) => {
         
         const attachFilename = `${message.id}.json`;
         const attachFilePath = `tmp/${attachFilename}`;
-        fs.writeFileSync(attachFilePath, JSON.stringify(rows));
+        fs.writeFileSync(attachFilePath, JSON.stringify(rows, null, 1));
         
         message.reply({
             files: [

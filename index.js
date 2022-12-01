@@ -61,7 +61,7 @@ for (const file of handlerFiles) {
 // Add callback to receive messages and send them to the appropriate handlers.
 client.on('messageCreate', async (message) => {
     if (message.content.startsWith(messageSigil)) {
-        const messageCommand = message.content.split(messageSigil)[1].split(' ')[0];
+        const messageCommand = message.content.split(messageSigil)[1].split(' ')[0].toLowerCase();
         const handler = message.client.messageHandlers.get(messageCommand);
         
         if (!handler) {

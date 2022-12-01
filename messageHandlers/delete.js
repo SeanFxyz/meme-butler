@@ -5,7 +5,7 @@ const { messageSigil, dbFile } = require('../config.json');
 exports.names = ['del', 'delete'];
 
 exports.execute = async (message) => {
-    const alias = message.content.split(messageSigil)[1].split(' ')[1];
+    const alias = message.content.split(messageSigil)[1].split(' ')[1].toLowerCase();
     const db = new sqlite3.Database(dbFile);
     
     db.run('DELETE FROM memes WHERE guild=? AND alias=?', [message.guildId, alias], function (err) {
