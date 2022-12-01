@@ -5,34 +5,26 @@ const { dbFile } = require('../config.json');
 exports.names = ['dump'];
 
 exports.execute = async (message) => {
-    const desiredTables = ['memes'];
-    const dumpData = {};
-
-    async function tryDump() {
-        for (let table of desiredTables) {
-            if ( !(table in dumpData) ) {
-                return;
-            }
+    const db = new sqlite3.Database(dbFile);
+    db.all('SELECT alias, location from memes WHERE guild=?', message.guildId, (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            return message.reply('There was an error retreiving your meme data!');
         }
-
-        const attachFileName = `${message.id}.json`;
-        const attachFilePath = `tmp/${attachFileName}`;
-        fs.writeFileSync(attachFilePath, JSON.stringify(dumpData));
         
-        await message.reply({
+        const attachFilename = `${message.id}.json`;
+        const attachFilePath = `tmp/${attachFilename}`;
+        fs.writeFileSync(attachFilePath, JSON.stringify(rows));
+        
+        message.reply({
             files: [
                 {
                     attachment: attachFilePath,
-                    name: attachFileName,
+                    name: attachFilename,
                     description: 'Database dump',
                 },
-            ],
-        });
-    
-        fs.promises.unlink(attachFilePath);
-    }
-
-    const db = new sqlite3.Database(dbFile);
-    db.all('SELECT * from memes WHERE guild=?', message.guild, (err, rows) => { dumpData.memes = rows; tryDump(); });
+            ]
+        }).then(() => {fs.promises.unlink(attachFilePath);});
+    });
     db.close();
 };
