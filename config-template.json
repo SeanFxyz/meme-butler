@@ -4,5 +4,8 @@
     "guildId": "",
     "messageSigil": "$",
     "inviteLink": "",
-    "dbFile": "database.db"
+    "dbFile": "database.db",
+    "maxAliasLength": 50,
+    "maxDescriptionLength": 255,
+    "commandBlacklist": []
 }

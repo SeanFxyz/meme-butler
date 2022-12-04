@@ -2,7 +2,8 @@ const sqlite3 = require('sqlite3');
 const { dbFile } = require('../config.json');
 
 exports.names = ['load'];
-
+exports.usage = '%';
+exports.description = 'Imports attached JSON files of the format produced by `dump`.';
 exports.execute = async (message) => {
     const urls = [].concat(
         Array.from(message.attachments.values()).map((a) => a.url),
@@ -17,7 +18,7 @@ exports.execute = async (message) => {
     let filesProcessed = 0;
     let duplicatesIgnored = 0;
     const fetchStatement = db.prepare('SELECT * FROM memes WHERE guild=?');
-    const insertStatement = db.prepare('INSERT INTO memes VALUES (?,?,?)');
+    const insertStatement = db.prepare('INSERT INTO memes VALUES (?,?,?,?)');
     for (let u of urls) {
         console.log(u);
         fetch(u).then(async (res) => {
@@ -32,7 +33,7 @@ exports.execute = async (message) => {
                         if (err) { console.error(err); dbError = true; }                            
                         if (row) { duplicatesIgnored++; return; }
 
-                        insertStatement.run([message.guildId, m.alias, m.location], (err) => {
+                        insertStatement.run([message.guildId, m.alias, m.location, m.description], (err) => {
                             if (err) {
                                 console.error(err);
                                 dbError = true;
